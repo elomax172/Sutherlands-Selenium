@@ -1,0 +1,17 @@
+{
+    "name": "lisa-selenium-test",
+    "version": "0.0.0",
+    "description": "Yada yada phoo phoo",
+    "dependencies": {
+        "chai": "^4.1.2",
+        "chai-as-promised": "^7.1.1",
+        "chromedriver": "^2.32.0",
+        "co": "^4.6.0",
+        "fast-csv": "^2.4.0",
+        "mocha": "^3.5.0",
+        "selenium-webdriver": "^3.5.0"
+    },
+    "scripts": {
+        "test": "mocha --inspect"
+    }
+}
