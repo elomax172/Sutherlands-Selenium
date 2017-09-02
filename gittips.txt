@@ -1,0 +1,17 @@
+
+https://gist.github.com/CelticParser/17c1c530ba4b6ed22c2c
+Adding a remote to a forked repo, named "upstream"
+
+
+git remote add upstream "https://github.com/elomax172/Sutherlands-Selenium.git"
+
+git fetch upstream
+
+git checkout master
+
+git rebase upstream/master
+
+git push -f origin master
+
+
+
