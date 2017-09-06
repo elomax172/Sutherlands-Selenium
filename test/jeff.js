@@ -10,6 +10,7 @@ const test = require('selenium-webdriver/testing');
 const seleniumHelpers = require("../selenium-helpers.js");
 const loginPageObject = require("../pages/login.page.js");
 
+
 logging.installConsoleHandler();
 logging.getLogger('webdriver.http').setLevel(logging.Level.ALL);
 //logging.getLogger('server').setLevel(logging.Level.ALL);
