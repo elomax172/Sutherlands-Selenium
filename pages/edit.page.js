@@ -10,9 +10,18 @@ class EditPage extends Page {
 
     constructor( seleniumWebDriver ){
         // https://inet.sutherlands.com
-        super(seleniumWebDriver, "http://www.google.com");
+        super(seleniumWebDriver, "");
         console.log("Edit Page CTOR");
+        this.baseUrl = "https://sutherlands.com/products/prod_adm/editproduct.php?";
     }
+
+    /**
+    * Return page url.  Overridden to add item = sku
+    */     
+    getPageUrl(){
+        var url = `${this.baseUrl}item=${this.sku}`;
+        return url;
+    }    
 
     /**
      * Wait for page title to become given sku
@@ -38,8 +47,8 @@ class EditPage extends Page {
     }
 
     async open(sku){
-        //await super.open("http://www.google.com");
-        console.log("not implemented");       
+        this.sku = sku;
+        await super.open();
     }
     
     submit(){

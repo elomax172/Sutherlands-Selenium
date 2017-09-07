@@ -21,10 +21,12 @@ class LoginPage extends Page {
         this.un = credentials.UN;
         this.pw = credentials.PW;     
         console.log(`Credentials: ${this.un}`)   
-    }    
+    }
 
     // Had some serious trouble with properties interacting w/super & await
     // So everything in here is a method for now
+
+    // getPageUrl() not overridden, this derived page doesn't have a special URL
 
     // Username
     async userNameElement(){
