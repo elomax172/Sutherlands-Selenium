@@ -1,14 +1,20 @@
 "use strict";
 
-class Page {
+// Page Object Pattern prototype
+// https://www.martinfowler.com/bliki/PageObject.html
 
-    init(seleniumWebDriver){
+class Page {
+    constructor( seleniumWebDriver, url ){
         this.webDriver = seleniumWebDriver;
+        this.url = url;
+        console.log(`PAGE CTOR ${url}`);
     }
 
-    get driver() { return this.webDriver; }
+    get driver() { 
+        return this.webDriver; 
+    }
 
-    async open(url){
+    async open( url = this.url ){
         await this.webDriver.get(url);
     }
 }
