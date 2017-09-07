@@ -2,35 +2,46 @@
 
 // Node --version 8.2.1
 
+// Require Packages
 var assert = require('assert');
 var csv = require('fast-csv');
 const fs = require('fs'); // Built into NodeJS
 const {Builder, By, Capabilities, Key, logging, until } = require ('selenium-webdriver');
 const test = require('selenium-webdriver/testing');
 const seleniumHelpers = require("../selenium-helpers.js");
-const loginPageObject = require("../pages/login.page.js");
+var loginPage = require("../pages/login.page.js");
 
-
+// Setup optional logging
 logging.installConsoleHandler();
 logging.getLogger('webdriver.http').setLevel(logging.Level.ALL);
 //logging.getLogger('server').setLevel(logging.Level.ALL);
 
+// Create WebDriver
 var builder = new Builder()
     .withCapabilities(Capabilities.chrome());
 
 var driver = builder.build();
 
+// https://umaar.com/dev-tips/124-webdriver-js/
+//const link = webdriver.until.elementLocated(webdriver.By.css('[href="http://seleniumconf.co.uk/"]'));
+//	(await browser.wait(link, 2000)).click();
+
+// Login Page Test
 async function jeff(){
     try {
-        var loginPage = new loginPageObject();  
-        loginPage.init(driver);
+        // Create Page Object
+        // Reads default username/pw from dev_credentials env var
+        var loginPageObject = new loginPage(driver);  
 
-        await loginPage.open();
+        // Navigate to URL
+        await loginPageObject.open();
 
-        var userNameElement = await loginPage.setUserName("sutherlands lumber");
+        var userNameElement = await loginPageObject.setUserName();
 
-        var userNameText = await loginPage.getUserNameText(userNameElement);
+        var userNameText = await loginPageObject.getUserNameText(userNameElement);
         console.log(`"Sent Username ${userNameText}`);
+
+        await loginPageObject.clickSubmitButton();
 
         driver.quit();
 
