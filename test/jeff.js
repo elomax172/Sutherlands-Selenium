@@ -10,6 +10,7 @@ const {Builder, By, Capabilities, Key, logging, until } = require ('selenium-web
 const test = require('selenium-webdriver/testing');
 const seleniumHelpers = require("../selenium-helpers.js");
 var loginPage = require("../pages/login.page.js");
+var editPage = require("../pages/edit.page.js");
 
 // Setup optional logging
 logging.installConsoleHandler();
@@ -26,8 +27,26 @@ var driver = builder.build();
 //const link = webdriver.until.elementLocated(webdriver.By.css('[href="http://seleniumconf.co.uk/"]'));
 //	(await browser.wait(link, 2000)).click();
 
+async function editPageTest(){
+    try{
+        // Create Page Object
+        let editPageObject = new editPage(driver);
+
+        var sku = "4437372";
+
+        // Navigate to URL
+        await editPageObject.open(sku);
+        
+        driver.quit();
+    }
+    catch( e ){
+        console.error('>>>method editPageTest Failed:' + e);
+    } 
+}
+
+
 // Login Page Test
-async function jeff(){
+async function loginPageTest(){
     try {
         // Create Page Object
         // Reads default username/pw from dev_credentials env var
@@ -47,12 +66,12 @@ async function jeff(){
 
     }
     catch( e ){
-        console.error('>>>method Jeff Failed:' + e);
+        console.error('>>>method loginPageTest Failed:' + e);
     }
 }
 
 
-async function tests1(){
+async function editPageExample(){
     try {
 
         // Create cross-cutting helper class
@@ -86,8 +105,9 @@ async function tests1(){
 
         driver.quit(); // Closes the Browser and ends the webdriver session
     } catch( e ){
-        console.error('>>>Fail:' + e);
+        console.error('>>>Fail:editPageExample' + e);
     }
 }
-//tests();
-jeff();
+//editPageExample();
+loginPageTest();
+//editPageTest();
