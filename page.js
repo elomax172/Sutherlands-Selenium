@@ -2,6 +2,7 @@
 
 // Page Object Pattern prototype
 // https://www.martinfowler.com/bliki/PageObject.html
+const { By, Key, until } = require ('selenium-webdriver');
 
 class Page {
     constructor( seleniumWebDriver, url ){
@@ -27,6 +28,18 @@ class Page {
         let baseOrDerivedUrl = this.getPageUrl();
         await this.webDriver.get(baseOrDerivedUrl);
     }
+
+    /**
+     * Checks if an element is on a page
+     * @param {By} locator
+     */           
+    async checkForElement( locator ){
+        let elementExists = await this.webDriver
+            .findElements(locator)
+            .count > 0;
+        return elementExists;
+    }
+
 }
 
 module.exports = Page;

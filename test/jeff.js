@@ -6,11 +6,12 @@
 var assert = require('assert');
 var csv = require('fast-csv');
 const fs = require('fs'); // Built into NodeJS
-const {Builder, By, Capabilities, Key, logging, until } = require ('selenium-webdriver');
+const {Builder, By, Capabilities, Key, logging, until, error } = require ('selenium-webdriver');
 const test = require('selenium-webdriver/testing');
 const seleniumHelpers = require("../selenium-helpers.js");
 var loginPage = require("../pages/login.page.js");
 var editPage = require("../pages/edit.page.js");
+var testPage = require("../pages/test.page.js");
 
 // Setup optional logging
 logging.installConsoleHandler();
@@ -26,6 +27,53 @@ var driver = builder.build();
 // https://umaar.com/dev-tips/124-webdriver-js/
 //const link = webdriver.until.elementLocated(webdriver.By.css('[href="http://seleniumconf.co.uk/"]'));
 //	(await browser.wait(link, 2000)).click();
+async function waitTest(){
+    try{
+        // Create Page Object
+        let testPageObject = new testPage(driver);      
+
+        await testPageObject.open();
+
+        let searchInputElement = driver.findElement(By.id("lst-ib"));
+        await driver.wait(until.elementIsVisible(searchInputElement));
+        await searchInputElement.sendKeys("selenium webdriver" + Key.ESCAPE);
+
+        let locator = By.id("jeff");
+
+        var elementExists = await testPageObject.checkForElement(locator);
+        if( !elementExists ){
+            console.log(`${locator.toString()} not found`);
+        }
+
+        try{
+            // Until
+            // elementIs[Disabled|Enabled|Selected|Visible]
+            // elementIsNot[Selected|Visible}
+            // element[Located]
+            // elementText[Is|Contains|Matches]
+            // more https://seleniumhq.github.io/selenium/docs/api/javascript/module/selenium-webdriver/lib/until.html
+            const l = await driver.wait(
+                until.elementLocated(By.id("q")),
+                1000
+            );   
+        }
+        catch( e ){
+            if( e instanceof error.TimeoutError ){
+                // Did not find element
+                console.log("Did not find element");
+            } else {
+                throw e;
+            }
+        }
+        
+        driver.quit();
+    }
+    catch( e ){
+        console.error('>>>method waitTest Failed:' + e);
+    } 
+}
+
+
 
 async function editPageTest(){
     try{
@@ -109,5 +157,6 @@ async function editPageExample(){
     }
 }
 //editPageExample();
-loginPageTest();
+//loginPageTest();
 //editPageTest();
+waitTest();
